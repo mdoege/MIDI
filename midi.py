@@ -281,6 +281,8 @@ class MIDI:
             self.fps = statistics.median(self.samp)
             print("FPS", self.fps)
             return
+        self.tempo = max(0.1, min(3, self.tempo))
+        pygame.display.set_caption('midi (%s , tempo %.2f)' % (self.mlist[self.mselect], self.tempo))
         if self.paused: return
         # play notes
         if not play(self.screen, self.res, TARGET_FPS / self.fps, self.tempo):
@@ -289,8 +291,6 @@ class MIDI:
             self.mselect = self.mselect % len(self.mlist)
             load_song(self.screen, self.res, self.mlist[self.mselect])
             
-        self.tempo = max(0.1, min(2, self.tempo))
-        pygame.display.set_caption('midi (%s , tempo %.2f)' % (self.mlist[self.mselect], self.tempo))
         pygame.display.flip()
 
 c = MIDI()
